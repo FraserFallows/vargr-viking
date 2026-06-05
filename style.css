@@ -1,0 +1,154 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
+
+:root {
+    --color-black: #000000;
+    --color-white: #ffffff;
+    --color-green: hsl(150, 100%, 30%);
+    --font-heading: 'Cinzel', serif;
+    --font-body: system-ui, -apple-system, sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--color-black);
+    color: var(--color-white);
+    font-family: var(--font-body);
+    line-height: 1.6;
+}
+
+h1, h2, h3 {
+    font-family: var(--font-heading);
+}
+
+a {
+    color: var(--color-green);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid var(--color-green);
+}
+
+nav ul {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+}
+
+#logo {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    color: var(--color-green);
+    text-decoration: none;
+}
+
+#hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: var(--color-black);
+}
+
+.hero-conent {
+    max-width: 800px;
+    padding: 2rem;
+}
+
+#hero h1 {
+    font-size: 4rem;
+    color: var(--color-green);
+    margin-bottom: 2rem;
+}
+
+#hero p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+#hero a {
+    border: 2px solid var(--color-green);
+    padding: 0.75rem 2rem;
+    color: var(--color-green);
+    font-family: var(--font-heading);
+    letter-spacing: 0.1em;
+}
+
+#hero a:hover {
+    background-color: var(--color-green);
+    color: var(--color-black);
+}
+
+#about {
+    padding: 5rem 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+#about h2 {
+    font-size: 2.5rem;
+    color: var(--color-green);
+    margin-bottom: 1.5rem;
+}
+
+#about h3 {
+    font-size: 1.5rem;
+    color: var(--color-green);
+    margin-bottom: 0.75rem;
+    margin-top: 2rem;
+}
+
+#about p {
+    margin-bottom: 1rem;
+}
+
+#gallery {
+    padding: 5rem 2rem;
+    text-align: center;
+}
+
+#gallery h2 {
+    font-size: 2.5rem;
+    color: var(--color-green);
+    margin-bottom: 1.5rem;
+}
+
+#contact {
+    padding: 5rem 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#contact h2 {
+    font-size: 2.5rem;
+    color: var(--color-green);
+    margin-bottom: 1.5rem;
+}
+
+#contact p {
+    margin-bottom: 2rem;
+}
+
+footer {
+    padding: 2rem;
+    text-align: center;
+    border-top: 1px solid var(--color-green);
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
