@@ -64,7 +64,7 @@ nav ul {
     background-color: var(--color-black);
 }
 
-.hero-conent {
+.hero-content {
     max-width: 800px;
     padding: 2rem;
 }
@@ -151,4 +151,43 @@ footer {
     display: flex;
     justify-content: center;
     gap: 2rem;
+}
+
+#hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+#hamburger span {
+    display: block;
+    width: 25px;
+    height: 2px;
+    background-color: var(--color-white);
+}
+
+@media (max-width: 768px) {
+    #hamburger {
+        display: flex;
+    }
+    
+    nav ul {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background-color: var(--color-black);
+        padding: 1rem 2rem;
+        border-bottom: 1px solid var(--color-green);
+    }
+    
+    nav ul.open {
+        display: flex;
+    }
 }
