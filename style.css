@@ -31,28 +31,110 @@ a {
     text-decoration: none;
 }
 
-a:hover {
-    text-decoration: underline;
-}
-
 nav {
     position: fixed;
     z-index: 100;
     width: 100%;
+    height: var(--nav-height);
     top: 0;
     left: 0;
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    padding: 1rem 2rem;
+    padding: 0 2rem;
     border-bottom: 1px solid var(--color-green);
     background-color: var(--color-black);
 }
 
+#nav-contact {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    height: var(--nav-height);
+    font-size: 0.9rem;
+}
+
+/* Top-level nav link list */
 nav ul {
     display: flex;
-    gap: 2rem;
+    gap: 0;
     list-style: none;
+}
+
+/* Dropdown panel> ul */
+nav ul ul {
+    display: none;
+    position: absolute;
+    top: var(--nav-height);
+    left: 0;
+    flex-direction: column;
+    background-color: var(--color-black);
+    border: 1px solid var(--color-green);
+    padding: 0;
+    gap: 0;
+    min-width: 200px;
+}
+
+/* Dropdown items */
+nav ul ul li {
+    height: auto;
+    width: 100%;
+}
+
+/* Dropdown links */
+nav ul ul li a {
+    display: block;
+    padding: 0.5rem 1rem 0.5rem 1.5rem;
+    width: 100%;
+}
+
+nav ul ul li a:hover,
+nav ul ul li a:active {
+    background-color: var(--color-green);
+    color: var(--color-black);
+}
+
+/* Every top-level nav item */
+nav li {
+    position: relative;
+    height: var(--nav-height);
+}
+
+/* Top-level links only */
+nav li > a {
+    display: block;
+    line-height: var(--nav-height);
+    width: 100%;
+    padding: 0 3rem 0 1.5rem;
+    text-align: left;
+}
+
+nav li > a:hover,
+nav li > a.active,
+nav li:has(> ul:hover) > a {
+    background-color: var(--color-green);
+    color: var(--color-black);
+}
+
+
+nav li:hover > ul {
+    display: flex;
+}
+
+nav li:has(> ul) > a::after {
+    content: ' ▾';
+}
+
+.dropdown-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--color-green);
+    cursor: pointer;
+    font-size: 1.5rem;
+    padding: 0 0.5rem;
+    transition: transform 0.2s;
 }
 
 #logo {
@@ -67,7 +149,7 @@ nav ul {
     margin-top: var(--nav-height);
     display: flex;
     align-items: flex-end;
-    padding-bottom: 15vh;
+    padding-bottom: 5vh;
     justify-content: center;
     text-align: center;
     background-color: var(--color-black);
@@ -106,17 +188,23 @@ nav ul {
 }
 
 .hero-content {
-    max-width: 800px;
     padding: 2rem;
     position: relative;
     z-index: 2;
 }
 
 #hero h1 {
-    font-size: 4rem;
+    font-size: 6rem;
     color: var(--color-green);
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     user-select: none;
+}
+
+#hero h2 {
+    font-size: 3rem;
+    white-space: nowrap;
+    margin-bottom: 2rem;
+    letter-spacing: 1rem;
 }
 
 #hero p {
@@ -231,10 +319,26 @@ footer {
     background-color: var(--color-white);
 }
 
-@media (max-width: 768px) {
+#hamburger.open span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+#hamburger.open span:nth-child(2) {
+    opacity: 0;
+}
+
+#hamburger.open span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+#hamburger span {
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+@media (max-width: 1024px) {
     #hero {
         flex-direction: column;
-        min-height: unset;
+        justify-content: flex-start;
     }
     
     .hero-image-wrapper {
@@ -252,12 +356,22 @@ footer {
         font-size: 3rem;
     }
 
+    #hero h2 {
+        font-size: 4vw;
+        white-space: normal;
+    }
+
     .hero-content {
         max-width: 100%;
         width: 100%;
         padding: 1rem;
     }
     
+    nav {
+        display: flex;
+        justify-content: space-between;
+    }
+
     #hamburger {
         display: flex;
     }
@@ -276,5 +390,57 @@ footer {
     
     nav ul.open {
         display: flex;
+    }
+
+    nav li {
+        height: auto;
+    }
+
+    nav li > a {
+        min-height: var(--nav-height);
+        line-height: normal;
+        display: flex;
+        align-items: center;
+    }
+
+    nav li:hover > ul {
+        display: none;
+    }
+
+    nav li.expanded > ul {
+        display: flex;
+        position: static;
+        width: 100%;
+        border: none;
+        border-top: 1px solid var(--color-green);
+        min-width: unset;
+        padding: 0.5rem 0;
+    }
+
+    nav li:has(> ul) > a::after {
+        content: none;
+    }
+
+    nav li.expanded > a {
+        background-color: var(--color-green);
+        color: var(--color-black);
+    }
+
+    .dropdown-toggle {
+        display: block;
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: var(--nav-height);
+        padding: 0 1rem;
+    }
+
+    nav li.expanded > .dropdown-toggle {
+        background-color: var(--color-green);
+        color: var(--color-black);
+    }
+
+    #nav-contact {
+        display: none;
     }
 }
