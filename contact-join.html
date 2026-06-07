@@ -1,18 +1,18 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vargr Viking</title>
+    <title>Join Us — Vargr Viking</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
     <body>
         <header>
             <nav id="main-nav">
-                <a href="#" id="logo"><span class="drop-v drop-v-vargr">V</span>argr <span class="drop-v">V</span>iking</a>
+                <a href="index.html" id="logo"><span class="drop-v drop-v-vargr">V</span>argr <span class="drop-v">V</span>iking</a>
                 <ul>
-                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="index.html">Home</a></li>
                     <li>
                         <a href="about.html">About Us</a>
                         <button class="dropdown-toggle" aria-label="Toggle submenu">▾</button>
@@ -23,10 +23,10 @@
                     </li>
                     <li><a href="gallery.html">Gallery</a></li>
                     <li>
-                        <a href="contact.html">Contact Us</a>
+                        <a href="contact.html" class="active">Contact Us</a>
                         <button class="dropdown-toggle" aria-label="Toggle submenu">▾</button>
                         <ul>
-                            <li><a href="contact-join.html">Join Us</a></li>
+                            <li><a href="contact-join.html" class="active">Join Us</a></li>
                             <!--<li><a href="contact-hire.html">Hire Us</a></li>-->
                         </ul>
                     </li>
@@ -43,30 +43,27 @@
             </nav>
         </header>
         <main>
-            <section id="hero">
-                <div class="hero-image-wrapper">
-                    <img src="images/hero.jpg" alt="Vargr Viking group photo" id="hero-img">
-                    <div id="hero-overlay"></div>
-                </div>
-                <div class="hero-content">
-                    <h1><span class="drop-v drop-v-vargr">V</span>argr <span class="drop-v">V</span>iking</h1>
-                    <h2>let slip the dogs of war</h2>
-                    <div class="hero-buttons">
-                        <a href="about.html">Find out more</a>
-                        <a href="contact-join.html" class="btn-primary">Join our ranks</a>
+            <section id="page-header">
+                <h1>Join Us</h1>
+            </section>
+            <section id="join-section">
+                <div class="join-layout">
+                    <div class="join-info">
+                        <h2>Where to Find Us</h2>
+                        <p>We train at The Red Lion in Great Bricett, Suffolk. It is a great pub with space to fight and people who will not bat an eye at a group of Vikings turning up. Well worth a visit whether you are coming to train or just want to see what we are about.</p>
+                        <a href="https://www.facebook.com/people/Red-Lion-Great-Bricett/61573613541840/" target="_blank">Find The Red Lion on Facebook</a>
+                        <h2>What to Expect</h2>
+                        <p>Turn up, introduce yourself, and get stuck in. No equipment needed to start. We will take it from there.</p>
+                        <a href="contact.html" class="btn-primary">Get in Touch</a>
                     </div>
-                </div>
-            </section>
-            <section id="about">
-                <h2>Who We Are</h2>
-                <p>We are a 9th to 11th century Viking tactical combat group based in Suffolk. We train and compete in Eastern and Huscarl — two full contact fighting styles with blunt steel weapons — at events across the UK and Europe.</p>
-            </section>
-            <section id="events">
-                <h2>Upcoming Events</h2>
-                <div class="events-list">
-                    <div class="event">
-                        <h3>Event Name</h3>
-                        <p>Date &mdash; Location</p>
+                    <div class="join-map">
+                        <iframe
+                            src="https://www.openstreetmap.org/export/embed.html?bbox=0.9711%2C52.1075%2C0.9861%2C52.1135&layer=mapnik&marker=52.110521%2C0.978623"
+                            width="100%"
+                            height="100%"
+                            style="border:0"
+                            allowfullscreen>
+                        </iframe>
                     </div>
                 </div>
             </section>

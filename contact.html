@@ -1,18 +1,18 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vargr Viking</title>
+    <title>Contact Us — Vargr Viking</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
     <body>
         <header>
             <nav id="main-nav">
-                <a href="#" id="logo"><span class="drop-v drop-v-vargr">V</span>argr <span class="drop-v">V</span>iking</a>
+                <a href="index.html" id="logo"><span class="drop-v drop-v-vargr">V</span>argr <span class="drop-v">V</span>iking</a>
                 <ul>
-                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="index.html">Home</a></li>
                     <li>
                         <a href="about.html">About Us</a>
                         <button class="dropdown-toggle" aria-label="Toggle submenu">▾</button>
@@ -23,7 +23,7 @@
                     </li>
                     <li><a href="gallery.html">Gallery</a></li>
                     <li>
-                        <a href="contact.html">Contact Us</a>
+                        <a href="contact.html" class="active">Contact Us</a>
                         <button class="dropdown-toggle" aria-label="Toggle submenu">▾</button>
                         <ul>
                             <li><a href="contact-join.html">Join Us</a></li>
@@ -43,31 +43,21 @@
             </nav>
         </header>
         <main>
-            <section id="hero">
-                <div class="hero-image-wrapper">
-                    <img src="images/hero.jpg" alt="Vargr Viking group photo" id="hero-img">
-                    <div id="hero-overlay"></div>
-                </div>
-                <div class="hero-content">
-                    <h1><span class="drop-v drop-v-vargr">V</span>argr <span class="drop-v">V</span>iking</h1>
-                    <h2>let slip the dogs of war</h2>
-                    <div class="hero-buttons">
-                        <a href="about.html">Find out more</a>
-                        <a href="contact-join.html" class="btn-primary">Join our ranks</a>
-                    </div>
-                </div>
+            <section id="page-header">
+                <h1>Contact Us</h1>
             </section>
-            <section id="about">
-                <h2>Who We Are</h2>
-                <p>We are a 9th to 11th century Viking tactical combat group based in Suffolk. We train and compete in Eastern and Huscarl — two full contact fighting styles with blunt steel weapons — at events across the UK and Europe.</p>
-            </section>
-            <section id="events">
-                <h2>Upcoming Events</h2>
-                <div class="events-list">
-                    <div class="event">
-                        <h3>Event Name</h3>
-                        <p>Date &mdash; Location</p>
+            <section id="contact-section">
+                <div class="contact-layout">
+                    <div class="contact-info">
+                        <p>Have a question or want to find out more about what we do? Get in touch. We are happy to hear from anyone curious about Vargr Viking.</p>
+                        <a href="mailto:youremail@email.com">youremail@email.com</a>
                     </div>
+                    <form class="contact-form">
+                        <input type="text" name="name" placeholder="Name" required>
+                        <input type="email" name="email" placeholder="Email" required>
+                        <textarea name="message" placeholder="Message" rows="6" required></textarea>
+                        <button type="submit">Send</button>
+                    </form>
                 </div>
             </section>
         </main>
