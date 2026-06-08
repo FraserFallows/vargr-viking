@@ -1,2 +1,6 @@
 #Rider
 .idea/
+
+#Node
+backend/node_modules/
+backend/dist/
