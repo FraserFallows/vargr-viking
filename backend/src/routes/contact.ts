@@ -18,9 +18,9 @@ router.post("/", async (req, res) => {
     
     await resend.emails.send({
         from: "Vargr Viking <info@vargrviking.co.uk>",
-        to: "info@vargrviking.co.uk",
+        to: process.env.NOTIFY_EMAIL!,
         subject: `New contact from ${name}`,
-        text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
+        text: `Name: ${name}\nEmail: ${email}\nMessage:\n${message}`,
     })
     
     res.status(201).json(result.rows[0]);
