@@ -1,0 +1,23 @@
+{
+  "name": "vargr-viking",
+  "version": "1.0.0",
+  "description": "Personal project: my first website, built from scratch to learn web development. A full-stack site for my Viking tactical combat group.",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FraserFallows/vargr-viking.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FraserFallows/vargr-viking/issues"
+  },
+  "homepage": "https://github.com/FraserFallows/vargr-viking#readme",
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.6"
+  }
+}

@@ -6,3 +6,5 @@ backend/node_modules/
 backend/dist/
 backend/.env
 backend/src/seed.ts
+node_modules/
+_site/
