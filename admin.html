@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vargr Admin</title>
+    <style>
+        body { font-family: sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; background: #111; color: #eee; }
+        h1, h2 { color: #fff; }
+        input { width: 100%; padding: 8px; margin: 4px 0 12px; background: #222; color: #eee; border: 1px solid #444; box-sizing:
+                border-box; }
+        button { padding: 8px 16px; background: #2a6; color: #fff; border: none; cursor: pointer; }
+        #login-error { color: red; }
+        .event-card { background: #1a1a1a; border: 1px solid #333; padding: 16px 20px; margin-bottom: 16px; }
+        .event-card h3 { margin: 0 0 4px; color: #fff; }
+        .event-card .meta { color: #aaa; font-size: 0.9em; margin-bottom: 10px; }
+        .event-card p { margin: 0 0 12px; color: #aaa; }
+        .event-card .actions { display: flex; gap: 8px; }
+        .contact-card { background: #1a1a1a; border: 1px solid #333; padding: 16px 20px; margin-bottom: 16px; }
+        .contact-card h3 { margin: 0 0 4px; color: #fff; }
+        .contact-card .meta { color: #aaa; font-size: 0.9em; margin-bottom: 10px; }
+        .contact-card p { margin: 0; color: #aaa; }
+        .form-section { background: #1a1a1a; padding: 20px; margin-bottom: 32px; }
+        button.danger { background: #a22; margin-right: 8px; }
+        button.secondary { background: #444; margin-right: 8px; }
+        textarea { width: 100%; padding: 8px; margin: 4px 0 12px; background: #222; color: #eee; border: 1px solid #444; box-sizing: border-box; }
+    </style>
+</head>
+<body>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <h1 style="margin: 0;">Vargr Admin</h1>
+        <div id="logout-btn" style="display:none;">
+            <button class="secondary" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <div id="login-section">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Username" />
+        <input type="password" id="password" placeholder="Password" />
+        <button onclick="login()">Login</button>
+        <p id="login-error"></p>
+    </div>
+
+    <div id="admin-section" style="display:none;">
+        <h2>Events</h2>
+        <div class="form-section">
+            <h3 id="form-title">Create Event</h3>
+            <input type="hidden" id="event-id" />
+            <input type="text" id="event-title" placeholder="Title" />
+            <textarea id="event-description" placeholder="Description" rows="3"></textarea>
+            <input type="date" id="event-date" />
+            <input type="text" id="event-location" placeholder="Location" />
+            <button onclick="saveEvent()">Save</button>
+            <button class="secondary" onclick="clearForm()">Clear</button>
+        </div>
+        <div id="events-list"></div>
+
+        <h2>Contact Submissions</h2>
+        <div id="contact-list"></div>
+    </div>
+
+    <script>
+        const API = "http://localhost:3000";
+        let token = null;
+
+        async function login() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            const res = await fetch(`${API}/auth/login`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, password })
+            });
+            if (!res.ok) {
+                document.getElementById("login-error").textContent = "Invalid credentials";
+                return;
+            }
+            const data = await res.json();
+            token = data.token;
+            document.getElementById("login-section").style.display = "none";
+            document.getElementById("admin-section").style.display = "block";
+            document.getElementById("logout-btn").style.display = "block";
+            loadEvents();
+            loadContacts();
+        }
+
+        function logout() {
+            token = null;
+            document.getElementById("admin-section").style.display = "none";
+            document.getElementById("logout-btn").style.display = "none";
+            document.getElementById("login-section").style.display = "block";
+        }
+
+        async function loadEvents() {
+            const res = await fetch(`${API}/events`);
+            const events = await res.json();
+            const list = document.getElementById("events-list");
+            list.innerHTML = "";
+            events.forEach(e => {
+                const card = document.createElement("div");
+                card.className = "event-card";
+                card.innerHTML = `
+                    <h3>${e.title}</h3>
+                    <div class="meta">${e.event_date.split("T")[0]} &nbsp;&bull;&nbsp; ${e.location}</div>
+                    <p>${e.description}</p>
+                    <div class="actions">
+                        <button onclick="editEvent(${e.id}, '${e.title}', '${e.description}', '${e.event_date.split("T")[0]}', '${e.location}')">Edit</button>
+                        <button class="danger" onclick="deleteEvent(${e.id})">Delete</button>
+                    </div>`;
+                list.appendChild(card);
+            });
+        }
+
+        async function saveEvent() {
+            const id = document.getElementById("event-id").value;
+            const body = {
+                title: document.getElementById("event-title").value,
+                description: document.getElementById("event-description").value,
+                event_date: document.getElementById("event-date").value,
+                location: document.getElementById("event-location").value
+            };
+            const method = id ? "PUT" : "POST";
+            const url = id ? `${API}/events/${id}` : `${API}/events`;
+            await fetch(url, {
+                method,
+                headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+                body: JSON.stringify(body)
+            });
+            clearForm();
+            loadEvents();
+        }
+
+        function editEvent(id, title, description, date, location) {
+            document.getElementById("form-title").textContent = "Edit Event";
+            document.getElementById("event-id").value = id;
+            document.getElementById("event-title").value = title;
+            document.getElementById("event-description").value = description;
+            document.getElementById("event-date").value = date;
+            document.getElementById("event-location").value = location;
+        }
+
+        async function deleteEvent(id) {
+            if (!confirm("Delete this event?")) return;
+            await fetch(`${API}/events/${id}`, {
+                method: "DELETE",
+                headers: { "Authorization": `Bearer ${token}` }
+            });
+            loadEvents();
+        }
+
+        async function loadContacts() {
+            const res = await fetch(`${API}/contact`, {
+                headers: { "Authorization": `Bearer ${token}` }
+            });
+            const submissions = await res.json();
+            const list = document.getElementById("contact-list");
+            list.innerHTML = "";
+            submissions.forEach(s => {
+                const card = document.createElement("div");
+                card.className = "contact-card";
+                card.innerHTML = `
+                    <h3>${s.name} &nbsp;&bull;&nbsp; ${s.email}</h3>
+                    <div class="meta">${s.submitted_at.split("T")[0]}</div>
+                    <p>${s.message}</p>`;
+                list.appendChild(card);
+            });
+        }
+
+        function clearForm() {
+            document.getElementById("form-title").textContent = "Create Event";
+            document.getElementById("event-id").value = "";
+            document.getElementById("event-title").value = "";
+            document.getElementById("event-description").value = "";
+            document.getElementById("event-date").value = "";
+            document.getElementById("event-location").value = "";
+        }
+    </script>
+</body>
+</html>

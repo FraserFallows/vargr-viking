@@ -1,0 +1,31 @@
+﻿import { Router } from "express";
+import pool from "../db";
+import { requireAuth } from "../middleware/auth";
+
+const router = Router();
+
+router.get("/", async (req, res) => {
+    const result = await pool.query("SELECT * FROM events ORDER BY event_date DESC");
+    res.json(result.rows);
+});
+
+router.post("/", requireAuth, async (req, res) => {
+    const { title, description, event_date, location } = req.body;
+    const result = await pool.query("INSERT INTO events (title, description, event_date, location) VALUES ($1, $2, $3, $4) RETURNING *", [title, description, event_date, location]);
+    res.status(201).json(result.rows[0]);
+});
+
+router.put("/:id", requireAuth, async (req, res) => {
+    const { id } = req.params;
+    const { title, description, event_date, location } = req.body;
+    const result = await pool.query("UPDATE events SET title = $1, description = $2, event_date = $3, location = $4 WHERE id = $5 RETURNING *", [title, description, event_date, location, id]);
+    res.json(result.rows[0]);
+});
+
+router.delete("/:id", requireAuth, async (req, res) => {
+    const { id } = req.params;
+    await pool.query("DELETE FROM events WHERE id = $1", [id]);
+    res.status(204).send();
+});
+
+export default router;
