@@ -62,7 +62,15 @@
 
     <script>
         const API = "https://vargr-viking-api.onrender.com";
-        let token = null;
+        let token = localStorage.getItem("token");
+
+        if (token) {
+            document.getElementById("login-section").style.display = "none";
+            document.getElementById("admin-section").style.display = "block";
+            document.getElementById("logout-btn").style.display = "block";
+            loadEvents();
+            loadContacts();
+        }
 
         async function login() {
             const username = document.getElementById("username").value;
@@ -78,6 +86,7 @@
             }
             const data = await res.json();
             token = data.token;
+            localStorage.setItem("token", token);
             document.getElementById("login-section").style.display = "none";
             document.getElementById("admin-section").style.display = "block";
             document.getElementById("logout-btn").style.display = "block";
@@ -87,6 +96,7 @@
 
         function logout() {
             token = null;
+            localStorage.removeItem("token");
             document.getElementById("admin-section").style.display = "none";
             document.getElementById("logout-btn").style.display = "none";
             document.getElementById("login-section").style.display = "block";
