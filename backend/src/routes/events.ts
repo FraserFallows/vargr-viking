@@ -5,7 +5,7 @@ import { requireAuth } from "../middleware/auth";
 const router = Router();
 
 router.get("/", async (req, res) => {
-    const result = await pool.query("SELECT * FROM events ORDER BY event_date DESC");
+    const result = await pool.query("SELECT * FROM events ORDER BY event_date ASC");
     res.json(result.rows);
 });
 
