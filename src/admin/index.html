@@ -79,11 +79,16 @@ permalink: /admin/
         async function login() {
             const username = document.getElementById("username").value;
             const password = document.getElementById("password").value;
+            const btn = document.querySelector("#login-section button");
+            btn.textContent = "Waiting for server...";
+            btn.disabled = true;
             const res = await fetch(`${API}/auth/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ username, password })
             });
+            btn.textContent = "Login";
+            btn.disabled = false;
             if (!res.ok) {
                 document.getElementById("login-error").textContent = "Invalid credentials";
                 return;
