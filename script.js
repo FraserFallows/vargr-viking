@@ -39,10 +39,15 @@ if (contactForm) {
 
 const eventsList = document.querySelector(".events-list");
 if (eventsList) {
+    eventsList.innerHTML = "<p>Loading events...</p>";
     fetch("https://vargr-viking-api.onrender.com/events")
         .then(res => res.json())
         .then(events => {
             eventsList.innerHTML = "";
+            if (events.length === 0) {
+                eventsList.innerHTML = "<p>No upcoming events scheduled.</p>";
+                return;
+            }
             events.forEach(e => {
                 const div = document.createElement("div");
                 div.className = "event";
@@ -52,5 +57,8 @@ if (eventsList) {
                       <p>${e.description}</p>`;
                 eventsList.appendChild(div);
             });
+        })
+        .catch(() => {
+            eventsList.innerHTML = "<p>Events unavailable — check back shortly.</p>";
         });
 }

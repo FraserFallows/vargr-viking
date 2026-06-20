@@ -113,23 +113,28 @@ permalink: /admin/
         }
 
         async function loadEvents() {
-            const res = await fetch(`${API}/events`);
-            const events = await res.json();
             const list = document.getElementById("events-list");
-            list.innerHTML = "";
-            events.forEach(e => {
-                const card = document.createElement("div");
-                card.className = "event-card";
-                card.innerHTML = `
-                    <h3>${e.title}</h3>
-                    <div class="meta">${e.event_date.split("T")[0]} &nbsp;&bull;&nbsp; ${e.location}</div>
-                    <p>${e.description}</p>
-                    <div class="actions">
-                        <button onclick="editEvent(${e.id}, '${e.title}', '${e.description}', '${e.event_date.split("T")[0]}', '${e.location}')">Edit</button>
-                        <button class="danger" onclick="deleteEvent(${e.id})">Delete</button>
-                    </div>`;
-                list.appendChild(card);
-            });
+            list.innerHTML = "<p style='color:#aaa'>Loading events...</p>";
+            try {
+                const res = await fetch(`${API}/events`);
+                const events = await res.json();
+                list.innerHTML = "";
+                events.forEach(e => {
+                    const card = document.createElement("div");
+                    card.className = "event-card";
+                    card.innerHTML = `
+                        <h3>${e.title}</h3>
+                        <div class="meta">${e.event_date.split("T")[0]} &nbsp;&bull;&nbsp; ${e.location}</div>
+                        <p>${e.description}</p>
+                        <div class="actions">
+                            <button onclick="editEvent(${e.id}, '${e.title}', '${e.description}', '${e.event_date.split("T")[0]}', '${e.location}')">Edit</button>
+                            <button class="danger" onclick="deleteEvent(${e.id})">Delete</button>
+                        </div>`;
+                    list.appendChild(card);
+                });
+            } catch {
+                list.innerHTML = "<p style='color:#aaa'>Server is starting up — refresh in a moment.</p>";
+            }
         }
 
         async function saveEvent() {
@@ -170,21 +175,26 @@ permalink: /admin/
         }
 
         async function loadContacts() {
-            const res = await fetch(`${API}/contact`, {
-                headers: { "Authorization": `Bearer ${token}` }
-            });
-            const submissions = await res.json();
             const list = document.getElementById("contact-list");
-            list.innerHTML = "";
-            submissions.forEach(s => {
-                const card = document.createElement("div");
-                card.className = "contact-card";
-                card.innerHTML = `
-                    <h3>${s.name} &nbsp;&bull;&nbsp; ${s.email}</h3>
-                    <div class="meta">${s.submitted_at.split("T")[0]}</div>
-                    <p>${s.message}</p>`;
-                list.appendChild(card);
-            });
+            list.innerHTML = "<p style='color:#aaa'>Loading submissions...</p>";
+            try {
+                const res = await fetch(`${API}/contact`, {
+                    headers: { "Authorization": `Bearer ${token}` }
+                });
+                const submissions = await res.json();
+                list.innerHTML = "";
+                submissions.forEach(s => {
+                    const card = document.createElement("div");
+                    card.className = "contact-card";
+                    card.innerHTML = `
+                        <h3>${s.name} &nbsp;&bull;&nbsp; ${s.email}</h3>
+                        <div class="meta">${s.submitted_at.split("T")[0]}</div>
+                        <p>${s.message}</p>`;
+                    list.appendChild(card);
+                });
+            } catch {
+                list.innerHTML = "<p style='color:#aaa'>Server is starting up — refresh in a moment.</p>";
+            }
         }
 
         function clearForm() {
