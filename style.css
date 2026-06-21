@@ -470,6 +470,16 @@ nav li:has(> ul) > a::after {
     color: var(--color-black);
 }
 
+.contact-form button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.form-error {
+    color: #e05;
+    margin: 0;
+}
+
 footer {
     padding: 2rem;
     text-align: center;

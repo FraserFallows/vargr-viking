@@ -112,6 +112,15 @@ permalink: /admin/
             document.getElementById("login-section").style.display = "block";
         }
 
+        function handleUnauthorized() {
+            token = null;
+            localStorage.removeItem("token");
+            document.getElementById("admin-section").style.display = "none";
+            document.getElementById("logout-btn").style.display = "none";
+            document.getElementById("login-section").style.display = "block";
+            document.getElementById("login-error").textContent = "Session expired — please log in again.";
+        }
+
         async function loadEvents() {
             const list = document.getElementById("events-list");
             list.innerHTML = "<p style='color:#aaa'>Loading events...</p>";
@@ -181,6 +190,10 @@ permalink: /admin/
                 const res = await fetch(`${API}/contact`, {
                     headers: { "Authorization": `Bearer ${token}` }
                 });
+                if (res.status === 401) {
+                    handleUnauthorized();
+                    return;
+                }
                 const submissions = await res.json();
                 list.innerHTML = "";
                 submissions.forEach(s => {

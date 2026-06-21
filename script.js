@@ -27,13 +27,28 @@ if (contactForm) {
         const name = contactForm.querySelector("[name='name']").value;
         const email = contactForm.querySelector("[name='email']").value;
         const message = contactForm.querySelector("[name='message']").value;
-        await fetch("https://vargr-viking-api.onrender.com/contact", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, email, message })
-        });
-        contactForm.reset();
-        contactForm.innerHTML = "<p>Message sent. We'll be in touch.</p>";
+        const btn = contactForm.querySelector("button[type='submit']");
+        btn.disabled = true;
+        btn.textContent = "Sending...";
+        try {
+            const res = await fetch("https://vargr-viking-api.onrender.com/contact", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, email, message })
+            });
+            if (!res.ok) throw new Error();
+            contactForm.innerHTML = "<p>Message sent. We'll be in touch.</p>";
+        } catch {
+            btn.disabled = false;
+            btn.textContent = "Send";
+            const existing = contactForm.querySelector(".form-error");
+            if (!existing) {
+                const err = document.createElement("p");
+                err.className = "form-error";
+                err.textContent = "Something went wrong — please try again in a moment.";
+                contactForm.appendChild(err);
+            }
+        }
     });
 }
 
