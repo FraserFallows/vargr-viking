@@ -364,10 +364,36 @@ nav li:has(> ul) > a::after {
     padding: 1.5rem;
 }
 
+.event-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-bottom: 0.25rem;
+}
+
 .event h3 {
     font-size: 1.25rem;
     color: var(--color-green);
-    margin-bottom: 0.5rem;
+}
+
+.event-link {
+    color: var(--color-green);
+    opacity: 0.6;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+}
+
+.event-link:hover {
+    opacity: 1;
+}
+
+.event-meta {
+    font-size: 0.85rem;
+    color: var(--color-green);
+    opacity: 0.6;
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.03em;
 }
 
 #gallery {

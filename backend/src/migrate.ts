@@ -17,6 +17,9 @@ async function migrate() {
         location TEXT,
         created_at TIMESTAMPTZ DEFAULT NOW()
     );`)
+
+    await pool.query(`
+    ALTER TABLE events ADD COLUMN IF NOT EXISTS url TEXT;`)
     
     await pool.query(`
     CREATE TABLE IF NOT EXISTS contact_submissions (

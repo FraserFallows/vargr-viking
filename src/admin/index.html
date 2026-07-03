@@ -56,6 +56,7 @@ permalink: /admin/
             <textarea id="event-description" placeholder="Description" rows="3"></textarea>
             <input type="date" id="event-date" />
             <input type="text" id="event-location" placeholder="Location" />
+            <input type="url" id="event-url" placeholder="Event URL (optional)" />
             <button onclick="saveEvent()">Save</button>
             <button class="secondary" onclick="clearForm()">Clear</button>
         </div>
@@ -155,7 +156,8 @@ permalink: /admin/
                 title: document.getElementById("event-title").value,
                 description: document.getElementById("event-description").value,
                 event_date: document.getElementById("event-date").value,
-                location: document.getElementById("event-location").value
+                location: document.getElementById("event-location").value,
+                url: document.getElementById("event-url").value || null
             };
             const method = id ? "PUT" : "POST";
             const url = id ? `${API}/events/${id}` : `${API}/events`;
@@ -176,6 +178,7 @@ permalink: /admin/
             document.getElementById("event-description").value = e.description;
             document.getElementById("event-date").value = e.event_date.split("T")[0];
             document.getElementById("event-location").value = e.location;
+            document.getElementById("event-url").value = e.url || "";
         }
 
         async function deleteEvent(id) {
@@ -221,6 +224,7 @@ permalink: /admin/
             document.getElementById("event-description").value = "";
             document.getElementById("event-date").value = "";
             document.getElementById("event-location").value = "";
+            document.getElementById("event-url").value = "";
         }
     </script>
 </body>
