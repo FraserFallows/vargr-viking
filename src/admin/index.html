@@ -56,6 +56,7 @@ permalink: /admin/
             <textarea id="event-description" placeholder="Description" rows="3"></textarea>
             <input type="date" id="event-date" />
             <input type="text" id="event-location" placeholder="Location" />
+            <input type="url" id="event-url" placeholder="Event URL (optional)" />
             <button onclick="saveEvent()">Save</button>
             <button class="secondary" onclick="clearForm()">Clear</button>
         </div>
@@ -68,6 +69,7 @@ permalink: /admin/
     <script>
         const API = "https://vargr-viking-api.onrender.com";
         let token = localStorage.getItem("token");
+        let eventsCache = {};
 
         if (token) {
             document.getElementById("login-section").style.display = "none";
@@ -128,7 +130,9 @@ permalink: /admin/
                 const res = await fetch(`${API}/events`);
                 const events = await res.json();
                 list.innerHTML = "";
+                eventsCache = {};
                 events.forEach(e => {
+                    eventsCache[e.id] = e;
                     const card = document.createElement("div");
                     card.className = "event-card";
                     card.innerHTML = `
@@ -136,7 +140,7 @@ permalink: /admin/
                         <div class="meta">${e.event_date.split("T")[0]} &nbsp;&bull;&nbsp; ${e.location}</div>
                         <p>${e.description}</p>
                         <div class="actions">
-                            <button onclick="editEvent(${e.id}, '${e.title}', '${e.description}', '${e.event_date.split("T")[0]}', '${e.location}')">Edit</button>
+                            <button onclick="editEvent(${e.id})">Edit</button>
                             <button class="danger" onclick="deleteEvent(${e.id})">Delete</button>
                         </div>`;
                     list.appendChild(card);
@@ -152,7 +156,8 @@ permalink: /admin/
                 title: document.getElementById("event-title").value,
                 description: document.getElementById("event-description").value,
                 event_date: document.getElementById("event-date").value,
-                location: document.getElementById("event-location").value
+                location: document.getElementById("event-location").value,
+                url: document.getElementById("event-url").value || null
             };
             const method = id ? "PUT" : "POST";
             const url = id ? `${API}/events/${id}` : `${API}/events`;
@@ -165,13 +170,15 @@ permalink: /admin/
             loadEvents();
         }
 
-        function editEvent(id, title, description, date, location) {
+        function editEvent(id) {
+            const e = eventsCache[id];
             document.getElementById("form-title").textContent = "Edit Event";
             document.getElementById("event-id").value = id;
-            document.getElementById("event-title").value = title;
-            document.getElementById("event-description").value = description;
-            document.getElementById("event-date").value = date;
-            document.getElementById("event-location").value = location;
+            document.getElementById("event-title").value = e.title;
+            document.getElementById("event-description").value = e.description;
+            document.getElementById("event-date").value = e.event_date.split("T")[0];
+            document.getElementById("event-location").value = e.location;
+            document.getElementById("event-url").value = e.url || "";
         }
 
         async function deleteEvent(id) {
@@ -217,6 +224,7 @@ permalink: /admin/
             document.getElementById("event-description").value = "";
             document.getElementById("event-date").value = "";
             document.getElementById("event-location").value = "";
+            document.getElementById("event-url").value = "";
         }
     </script>
 </body>

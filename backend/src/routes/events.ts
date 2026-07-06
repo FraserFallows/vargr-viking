@@ -10,15 +10,15 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", requireAuth, async (req, res) => {
-    const { title, description, event_date, location } = req.body;
-    const result = await pool.query("INSERT INTO events (title, description, event_date, location) VALUES ($1, $2, $3, $4) RETURNING *", [title, description, event_date, location]);
+    const { title, description, event_date, location, url } = req.body;
+    const result = await pool.query("INSERT INTO events (title, description, event_date, location, url) VALUES ($1, $2, $3, $4, $5) RETURNING *", [title, description, event_date, location, url ?? null]);
     res.status(201).json(result.rows[0]);
 });
 
 router.put("/:id", requireAuth, async (req, res) => {
     const { id } = req.params;
-    const { title, description, event_date, location } = req.body;
-    const result = await pool.query("UPDATE events SET title = $1, description = $2, event_date = $3, location = $4 WHERE id = $5 RETURNING *", [title, description, event_date, location, id]);
+    const { title, description, event_date, location, url } = req.body;
+    const result = await pool.query("UPDATE events SET title = $1, description = $2, event_date = $3, location = $4, url = $5 WHERE id = $6 RETURNING *", [title, description, event_date, location, url ?? null, id]);
     res.json(result.rows[0]);
 });
 

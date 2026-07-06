@@ -67,8 +67,11 @@ if (eventsList) {
                 const div = document.createElement("div");
                 div.className = "event";
                 div.innerHTML = `
-                      <h3>${e.title}</h3>
-                      <p>${e.event_date.split("T")[0]} &bull; ${e.location}</p>
+                      <div class="event-header">
+                          <h3>${e.title}</h3>
+                          ${e.url ? `<a href="${e.url}" target="_blank" rel="noopener" class="event-link" aria-label="More info"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>` : ""}
+                      </div>
+                      <p class="event-meta">${e.event_date.split("T")[0]} &bull; ${e.location}</p>
                       <p>${e.description}</p>`;
                 eventsList.appendChild(div);
             });
