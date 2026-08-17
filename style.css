@@ -343,6 +343,31 @@ nav li:has(> ul) > a::after {
     gap: 1rem;
 }
 
+.events-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 2rem 0;
+    color: var(--color-green);
+    opacity: 0.8;
+}
+
+.spinner {
+    width: 1.1rem;
+    height: 1.1rem;
+    border: 2px solid color-mix(in srgb, var(--color-green) 25%, transparent);
+    border-top-color: var(--color-green);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 .event {
     display: block;
     border: 1px solid var(--color-green);

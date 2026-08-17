@@ -54,7 +54,7 @@ if (contactForm) {
 
 const eventsList = document.querySelector(".events-list");
 if (eventsList) {
-    eventsList.innerHTML = "<p>Loading events...</p>";
+    eventsList.innerHTML = "<div class=\"events-loading\"><span class=\"spinner\"></span>Loading events</div>";
     fetch("https://vargr-viking-api.onrender.com/events")
         .then(res => res.json())
         .then(events => {
