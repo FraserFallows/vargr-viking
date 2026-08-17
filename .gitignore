@@ -8,3 +8,6 @@ backend/.env
 backend/src/seed.ts
 node_modules/
 _site/
+
+#Full-resolution source photos (web-optimized versions live in images/)
+images-original/
