@@ -127,7 +127,13 @@ permalink: /admin/
             const list = document.getElementById("events-list");
             list.innerHTML = "<p style='color:#aaa'>Loading events...</p>";
             try {
-                const res = await fetch(`${API}/events`);
+                const res = await fetch(`${API}/events?all=true`, {
+                    headers: { "Authorization": `Bearer ${token}` }
+                });
+                if (res.status === 401) {
+                    handleUnauthorized();
+                    return;
+                }
                 const events = await res.json();
                 list.innerHTML = "";
                 eventsCache = {};

@@ -1,11 +1,22 @@
-﻿import { Router } from "express";
+﻿import { NextFunction, Request, Response, Router } from "express";
 import pool from "../db";
 import { requireAuth } from "../middleware/auth";
 
 const router = Router();
 
-router.get("/", async (req, res) => {
-    const result = await pool.query("SELECT * FROM events ORDER BY event_date ASC");
+function requireAuthIfAll(req: Request, res: Response, next: NextFunction) {
+    if (req.query.all === "true") {
+        return requireAuth(req, res, next);
+    }
+    next();
+}
+
+router.get("/", requireAuthIfAll, async (req, res) => {
+    const includeAll = req.query.all === "true";
+    const query = includeAll
+        ? "SELECT * FROM events ORDER BY event_date ASC"
+        : "SELECT * FROM events WHERE event_date >= CURRENT_DATE ORDER BY event_date ASC";
+    const result = await pool.query(query);
     res.json(result.rows);
 });
 
