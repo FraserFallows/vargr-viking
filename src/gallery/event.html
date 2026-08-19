@@ -1,0 +1,24 @@
+---
+layout: layout.html
+pagination:
+  data: gallery
+  size: 1
+  alias: event
+permalink: "/gallery/{{ event.slug }}/"
+eleventyComputed:
+  title: "{{ event.title }}"
+---
+<section id="page-header" class="gallery-header">
+    <h1>{{ event.title }}</h1>
+    <p class="gallery-date">{{ event.date }}</p>
+    <p class="gallery-credit">Photos by <a href="https://www.stevenbrooksphotography.co.uk/" target="_blank" rel="noopener noreferrer">Steven Brooks</a></p>
+</section>
+<section class="gallery-section">
+    <div class="gallery-grid">
+        {% for image in event.images %}
+        <div class="gallery-item">
+            <img src="/images/gallery/{{ event.slug }}/{{ image }}" alt="{{ event.title }} photo" loading="lazy">
+        </div>
+        {% endfor %}
+    </div>
+</section>

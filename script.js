@@ -52,6 +52,64 @@ if (contactForm) {
     });
 }
 
+const galleryImages = Array.from(document.querySelectorAll(".gallery-item img"));
+if (galleryImages.length) {
+    const lightbox = document.createElement("div");
+    lightbox.id = "lightbox";
+    lightbox.innerHTML = `
+        <button class="lightbox-close" aria-label="Close">&times;</button>
+        <div class="lightbox-stage">
+            <button class="lightbox-prev" aria-label="Previous photo">&#10094;</button>
+            <img class="lightbox-img" alt="">
+            <button class="lightbox-next" aria-label="Next photo">&#10095;</button>
+        </div>`;
+    document.body.appendChild(lightbox);
+
+    const lightboxImg = lightbox.querySelector(".lightbox-img");
+    const prevBtn = lightbox.querySelector(".lightbox-prev");
+    const nextBtn = lightbox.querySelector(".lightbox-next");
+    let currentIndex = 0;
+
+    function showImage(index) {
+        if (index < 0 || index >= galleryImages.length) return;
+        currentIndex = index;
+        lightboxImg.src = galleryImages[currentIndex].src;
+        lightboxImg.alt = galleryImages[currentIndex].alt;
+        prevBtn.style.visibility = currentIndex === 0 ? "hidden" : "visible";
+        nextBtn.style.visibility = currentIndex === galleryImages.length - 1 ? "hidden" : "visible";
+    }
+
+    function openLightbox(index) {
+        showImage(index);
+        lightbox.classList.add("open");
+        document.body.style.overflow = "hidden";
+    }
+
+    function closeLightbox() {
+        lightbox.classList.remove("open");
+        document.body.style.overflow = "";
+    }
+
+    galleryImages.forEach((img, index) => {
+        img.addEventListener("click", () => openLightbox(index));
+    });
+
+    lightbox.querySelector(".lightbox-close").addEventListener("click", closeLightbox);
+    lightbox.querySelector(".lightbox-prev").addEventListener("click", () => showImage(currentIndex - 1));
+    lightbox.querySelector(".lightbox-next").addEventListener("click", () => showImage(currentIndex + 1));
+
+    lightbox.addEventListener("click", (e) => {
+        if (e.target === lightbox) closeLightbox();
+    });
+
+    document.addEventListener("keydown", (e) => {
+        if (!lightbox.classList.contains("open")) return;
+        if (e.key === "Escape") closeLightbox();
+        if (e.key === "ArrowLeft") showImage(currentIndex - 1);
+        if (e.key === "ArrowRight") showImage(currentIndex + 1);
+    });
+}
+
 const eventsList = document.querySelector(".events-list");
 if (eventsList) {
     eventsList.innerHTML = "<div class=\"events-loading\"><span class=\"spinner\"></span>Loading events</div>";

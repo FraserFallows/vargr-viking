@@ -6,3 +6,14 @@ permalink: /gallery/
 <section id="page-header">
     <h1>Gallery</h1>
 </section>
+<section class="gallery-section">
+    <div class="gallery-menu">
+        {% for section in gallery %}
+        <a class="gallery-card" href="/gallery/{{ section.slug }}/">
+            <img src="/images/gallery/{{ section.slug }}/{{ section.images[0] }}" alt="{{ section.title }}" loading="lazy">
+            <div class="gallery-card-overlay"></div>
+            <h2>{{ section.title }}</h2>
+        </a>
+        {% endfor %}
+    </div>
+</section>
